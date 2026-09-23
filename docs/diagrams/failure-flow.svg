@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+<title id="title">Failure recovery flow</title><desc id="desc">A task executes, retries with backoff after failure, and requests a revised plan after retries are exhausted.</desc>
+<defs><marker id="a" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#276447"/></marker><style>.bg{fill:#f2efe7}.box{fill:#fff;stroke:#17201b;stroke-width:2}.fail{fill:#f5d8ce;stroke:#a84336;stroke-width:2}.good{fill:#c9ff68;stroke:#17201b;stroke-width:2}.t{font:600 17px Manrope,Arial;fill:#17201b}.s{font:12px 'DM Mono',monospace;fill:#687069}.line{fill:none;stroke:#276447;stroke-width:3;marker-end:url(#a)}.red{stroke:#a84336}</style></defs>
+<rect class="bg" width="1200" height="560"/><text x="55" y="60" font-family="Georgia" font-size="34" fill="#17201b">Failure is part of the plan</text><text x="55" y="87" class="s">RETRY FIRST · REPLAN SECOND · PRESERVE COMPLETED WORK</text>
+<rect class="box" x="55" y="205" width="165" height="90" rx="45"/><text class="t" x="91" y="245">Run task</text><text class="s" x="91" y="268">attempt + 1</text>
+<polygon class="box" points="330,180 430,250 330,320 230,250"/><text class="t" x="290" y="246">Success?</text>
+<rect class="good" x="490" y="115" width="195" height="90" rx="5"/><text class="t" x="522" y="153">Save result</text><text class="s" x="522" y="177">next pending task</text>
+<polygon class="fail" points="585,235 695,310 585,385 475,310"/><text class="t" x="517" y="306">Retries left?</text>
+<rect class="fail" x="760" y="255" width="190" height="110" rx="5"/><text class="t" x="797" y="299">Ask Gemini</text><text class="s" x="797" y="324">revise unfinished</text><text class="s" x="797" y="344">tasks only</text>
+<rect class="good" x="985" y="255" width="165" height="110" rx="5"/><text class="t" x="1010" y="299">New plan</text><text class="s" x="1010" y="324">keep completed</text><text class="s" x="1010" y="344">context</text>
+<path class="line" d="M220 250H222"/><path class="line" d="M365 214Q410 160 482 160"/><text class="s" x="403" y="146">YES</text><path class="line red" d="M365 285Q405 310 468 310"/><text class="s" x="401" y="300">NO</text><path class="line red" d="M695 310H753"/><text class="s" x="704" y="296">NO</text><path class="line" d="M950 310H978"/><path class="line" d="M585 385V460H137V302"/><text class="s" x="315" y="448">YES · exponential backoff · checkpoint error</text>
+</svg>

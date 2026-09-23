@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas · Planning Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <a class="brand" href="/"><span class="mark">A</span><span>ATLAS</span></a>
+    <div class="health"><span class="pulse"></span><span id="mode">checking agent</span></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">GEMINI-POWERED PLANNING AGENT</p>
+      <h1>Turn a complex goal into<br><em>work that gets done.</em></h1>
+      <p class="intro">Atlas decomposes an objective, selects tools, executes each task, and adapts when the plan meets reality.</p>
+      <form id="goal-form">
+        <label for="objective">What should Atlas accomplish?</label>
+        <textarea id="objective" required minlength="10" placeholder="Research three AI companies, compare their products, and prepare a summary."></textarea>
+        <div class="form-row">
+          <span>⌘ Enter to run</span>
+          <button type="submit">Create & execute plan <b>→</b></button>
+        </div>
+      </form>
+    </section>
+
+    <section id="workspace" class="workspace hidden" aria-live="polite">
+      <div class="section-heading">
+        <div><p class="eyebrow">LIVE EXECUTION</p><h2 id="run-title">Current plan</h2></div>
+        <span id="run-status" class="status">planning</span>
+      </div>
+      <div class="pipeline" aria-label="agent pipeline">
+        <span>Goal</span><i>→</i><span>Plan</span><i>→</i><span>Tasks</span><i>→</i><span>Tools</span><i>→</i><span>Execute</span><i>→</i><span>Result</span>
+      </div>
+      <div id="tasks" class="tasks"></div>
+      <article id="final" class="final hidden"><p class="eyebrow">FINAL RESPONSE</p><div id="final-text"></div></article>
+    </section>
+
+    <section class="how">
+      <p class="eyebrow">HOW IT THINKS</p>
+      <div class="principles">
+        <article><b>01</b><h3>Decompose</h3><p>Gemini turns the goal into ordered, dependency-aware tasks.</p></article>
+        <article><b>02</b><h3>Execute</h3><p>A registry maps each task to a focused, auditable tool.</p></article>
+        <article><b>03</b><h3>Adapt</h3><p>Failures trigger retries, then a revised plan with saved context.</p></article>
+      </div>
+    </section>
+  </main>
+  <footer><span>ATLAS / v1.0</span><span>State persisted after every step</span></footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

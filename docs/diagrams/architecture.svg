@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+<title id="title">Planning agent architecture</title><desc id="desc">The objective flows through planning, task execution, tools, results, and final response, with SQLite state checkpoints throughout.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#276447"/></marker><style>.bg{fill:#f2efe7}.box{fill:#faf9f5;stroke:#17201b;stroke-width:2}.core{fill:#276447;stroke:#17201b;stroke-width:2}.state{fill:#c9ff68;stroke:#17201b;stroke-width:2}.t{font:600 18px Manrope,Arial;fill:#17201b}.s{font:13px 'DM Mono',monospace;fill:#687069}.white{fill:#fff}.line{fill:none;stroke:#276447;stroke-width:3;marker-end:url(#arrow)}</style></defs>
+<rect class="bg" width="1200" height="620"/><text x="60" y="60" font-family="Georgia" font-size="34" fill="#17201b">Goal → Plan → Tasks → Tools → Results</text><text x="60" y="88" class="s">END-TO-END ARCHITECTURE</text>
+<rect class="box" x="55" y="155" width="155" height="95" rx="5"/><text class="t" x="84" y="194">1 · Objective</text><text class="s" x="84" y="222">User's complex goal</text>
+<rect class="core" x="275" y="145" width="175" height="115" rx="5"/><text class="t white" x="307" y="190">2 · Planner</text><text class="s white" x="307" y="219">Gemini + schema</text>
+<rect class="box" x="515" y="145" width="175" height="115" rx="5"/><text class="t" x="545" y="190">3 · Executor</text><text class="s" x="545" y="219">Dependencies + retry</text>
+<rect class="box" x="755" y="125" width="175" height="155" rx="5"/><text class="t" x="780" y="162">4 · Tools</text><text class="s" x="780" y="193">research</text><text class="s" x="780" y="218">analyze</text><text class="s" x="780" y="243">write_document</text>
+<rect class="core" x="995" y="145" width="155" height="115" rx="5"/><text class="t white" x="1017" y="190">5 · Answer</text><text class="s white" x="1017" y="219">Final synthesis</text>
+<path class="line" d="M210 202H268"/><path class="line" d="M450 202H508"/><path class="line" d="M690 202H748"/><path class="line" d="M930 202H988"/>
+<rect class="state" x="335" y="420" width="530" height="100" rx="5"/><text class="t" x="510" y="462">Persistent Agent State</text><text class="s" x="430" y="491">plan · task status · attempts · results · event history</text>
+<path class="line" d="M362 268V388Q362 400 375 400H590V413"/><path class="line" d="M603 268V413"/><path class="line" d="M842 288V388Q842 400 827 400H610V413"/>
+<text class="s" x="60" y="580">Every meaningful transition is checkpointed to SQLite, so progress remains observable and recoverable.</text>
+</svg>

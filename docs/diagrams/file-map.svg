@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">Project file map</title><desc id="desc">Visual map showing how browser, API, orchestration, model, tools, and storage files relate.</desc>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#687069"/></marker><style>.bg{fill:#17201b}.group{fill:none;stroke:#627068;stroke-width:1}.box{fill:#f2efe7;stroke:#c9ff68;stroke-width:2}.green{fill:#276447;stroke:#c9ff68;stroke-width:2}.t{font:600 17px Manrope,Arial;fill:#17201b}.w{fill:#fff}.s{font:12px 'DM Mono',monospace;fill:#687069}.sw{font:12px 'DM Mono',monospace;fill:#dce2dd}.line{fill:none;stroke:#829087;stroke-width:2;marker-end:url(#a)}</style></defs>
+<rect class="bg" width="1200" height="720"/><text x="55" y="58" font-family="Georgia" font-size="34" fill="#fff">How the files collaborate</text><text x="55" y="84" class="sw">ONE RESPONSIBILITY PER MODULE</text>
+<rect class="group" x="45" y="115" width="250" height="530" rx="8"/><text class="sw" x="65" y="143">PRESENTATION</text>
+<rect class="box" x="70" y="180" width="200" height="95" rx="5"/><text class="t" x="93" y="215">index.html</text><text class="s" x="93" y="241">screen structure</text>
+<rect class="box" x="70" y="305" width="200" height="95" rx="5"/><text class="t" x="93" y="340">app.js</text><text class="s" x="93" y="366">submit + polling</text>
+<rect class="box" x="70" y="430" width="200" height="95" rx="5"/><text class="t" x="93" y="465">style.css</text><text class="s" x="93" y="491">visual design</text>
+<rect class="group" x="330" y="115" width="535" height="530" rx="8"/><text class="sw" x="350" y="143">AGENT CORE</text>
+<rect class="green" x="370" y="180" width="190" height="95" rx="5"/><text class="t w" x="393" y="215">api.py</text><text class="sw" x="393" y="241">HTTP + background run</text>
+<rect class="green" x="630" y="180" width="190" height="95" rx="5"/><text class="t w" x="653" y="215">agent.py</text><text class="sw" x="653" y="241">workflow coordinator</text>
+<rect class="box" x="370" y="330" width="190" height="95" rx="5"/><text class="t" x="393" y="365">planner.py</text><text class="s" x="393" y="391">plan validation</text>
+<rect class="box" x="630" y="330" width="190" height="95" rx="5"/><text class="t" x="653" y="365">executor.py</text><text class="s" x="653" y="391">retry + dependency</text>
+<rect class="box" x="370" y="480" width="190" height="95" rx="5"/><text class="t" x="393" y="515">llm.py</text><text class="s" x="393" y="541">Gemini / demo model</text>
+<rect class="box" x="630" y="480" width="190" height="95" rx="5"/><text class="t" x="653" y="515">tools.py</text><text class="s" x="653" y="541">tool registry</text>
+<rect class="group" x="900" y="115" width="255" height="530" rx="8"/><text class="sw" x="920" y="143">DATA</text>
+<rect class="box" x="930" y="220" width="195" height="95" rx="5"/><text class="t" x="953" y="255">models.py</text><text class="s" x="953" y="281">typed state schema</text>
+<rect class="box" x="930" y="390" width="195" height="95" rx="5"/><text class="t" x="953" y="425">state_store.py</text><text class="s" x="953" y="451">SQLite checkpoints</text>
+<path class="line" d="M270 352H362"/><path class="line" d="M560 227H622"/><path class="line" d="M725 275V322"/><path class="line" d="M630 370H568"/><path class="line" d="M465 425V472"/><path class="line" d="M725 425V472"/><path class="line" d="M820 227H905Q915 227 915 245V265H923"/><path class="line" d="M820 377H870Q885 377 885 437H923"/>
+</svg>
