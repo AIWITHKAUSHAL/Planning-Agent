@@ -8,7 +8,6 @@ from abc import ABC, abstractmethod
 
 from app.models import AgentState, PlanDraft, PlannedTask
 
-
 TOOLS = """
 Available tools:
 - research: Find factual information and identify useful sources. Inputs: query.
@@ -91,7 +90,9 @@ class EuriProvider(ModelProvider):
             f"the objective asks for a deliverable.\n{TOOLS}\nObjective: {objective}"
         )
 
-    async def revise_plan(self, state: AgentState, failed_task: PlannedTask, error: str) -> PlanDraft:
+    async def revise_plan(
+        self, state: AgentState, failed_task: PlannedTask, error: str
+    ) -> PlanDraft:
         """Ask EURI to replace unfinished work while retaining completed results."""
         completed = [
             {"id": task.id, "title": task.title, "result": task.result}
@@ -126,13 +127,41 @@ class DemoProvider(ModelProvider):
             goal_summary=objective,
             reasoning="Research the parts, compare evidence, then create the requested deliverable.",
             tasks=[
-                PlannedTask(id="task_1", title="Research the objective", description="Collect key facts", tool="research", inputs={"query": objective}, success_criteria="Relevant facts are collected"),
-                PlannedTask(id="task_2", title="Analyze findings", description="Organize and compare the evidence", tool="analyze", inputs={"instruction": "Extract themes, comparisons, and conclusions"}, depends_on=["task_1"], success_criteria="Findings answer the objective"),
-                PlannedTask(id="task_3", title="Prepare final report", description="Write a clear Markdown report", tool="write_document", inputs={"filename": "planning-agent-report.md", "title": "Planning Agent Report"}, depends_on=["task_2"], success_criteria="A readable report is saved"),
+                PlannedTask(
+                    id="task_1",
+                    title="Research the objective",
+                    description="Collect key facts",
+                    tool="research",
+                    inputs={"query": objective},
+                    success_criteria="Relevant facts are collected",
+                ),
+                PlannedTask(
+                    id="task_2",
+                    title="Analyze findings",
+                    description="Organize and compare the evidence",
+                    tool="analyze",
+                    inputs={"instruction": "Extract themes, comparisons, and conclusions"},
+                    depends_on=["task_1"],
+                    success_criteria="Findings answer the objective",
+                ),
+                PlannedTask(
+                    id="task_3",
+                    title="Prepare final report",
+                    description="Write a clear Markdown report",
+                    tool="write_document",
+                    inputs={
+                        "filename": "planning-agent-report.md",
+                        "title": "Planning Agent Report",
+                    },
+                    depends_on=["task_2"],
+                    success_criteria="A readable report is saved",
+                ),
             ],
         )
 
-    async def revise_plan(self, state: AgentState, failed_task: PlannedTask, error: str) -> PlanDraft:
+    async def revise_plan(
+        self, state: AgentState, failed_task: PlannedTask, error: str
+    ) -> PlanDraft:
         """Return a fresh deterministic plan for the original objective."""
         return await self.create_plan(state.objective)
 

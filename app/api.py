@@ -18,7 +18,6 @@ from app.planner import Planner
 from app.state_store import StateStore
 from app.tools import ToolRegistry
 
-
 settings = get_settings()
 store = StateStore(settings.database_path)
 background_runs: set[asyncio.Task] = set()
@@ -40,7 +39,9 @@ def create_agent() -> PlanningAgent:
         settings.euri_base_url,
     )
     tools = ToolRegistry(model, settings.output_dir)
-    return PlanningAgent(Planner(model), Executor(tools, settings.max_retries), model, store, settings.max_replans)
+    return PlanningAgent(
+        Planner(model), Executor(tools, settings.max_retries), model, store, settings.max_replans
+    )
 
 
 app = FastAPI(title="EURI Planning Agent", version="1.0.0")

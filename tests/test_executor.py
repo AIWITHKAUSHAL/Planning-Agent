@@ -26,7 +26,13 @@ async def test_executor_retries_and_checkpoints():
     """Verify that transient failures are retried and state is checkpointed."""
     tools = FlakyTools()
     executor = Executor(tools, max_retries=2)
-    task = TaskState(id="task_1", title="Research", description="Find facts", tool="research", success_criteria="facts found")
+    task = TaskState(
+        id="task_1",
+        title="Research",
+        description="Find facts",
+        tool="research",
+        success_criteria="facts found",
+    )
     state = AgentState(objective="Research an important subject", tasks=[task])
     checkpoints = []
 

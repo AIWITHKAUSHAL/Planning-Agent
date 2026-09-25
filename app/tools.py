@@ -9,7 +9,6 @@ from typing import Awaitable, Callable
 from app.llm import ModelProvider
 from app.models import TaskState
 
-
 ToolFunction = Callable[[TaskState, dict[str, str]], Awaitable[str]]
 
 

@@ -21,19 +21,29 @@ def task(task_id: str, depends_on: list[str] | None = None) -> PlannedTask:
 
 def test_accepts_ordered_dependencies():
     """Accept dependencies that reference tasks appearing earlier in the plan."""
-    Planner.validate(PlanDraft(goal_summary="goal", reasoning="reason", tasks=[task("a"), task("b", ["a"]), task("c", ["b"])]))
+    Planner.validate(
+        PlanDraft(
+            goal_summary="goal",
+            reasoning="reason",
+            tasks=[task("a"), task("b", ["a"]), task("c", ["b"])],
+        )
+    )
 
 
 def test_rejects_forward_dependency():
     """Reject a task that depends on a later task."""
-    draft = PlanDraft(goal_summary="goal", reasoning="reason", tasks=[task("a", ["b"]), task("b"), task("c")])
+    draft = PlanDraft(
+        goal_summary="goal", reasoning="reason", tasks=[task("a", ["b"]), task("b"), task("c")]
+    )
     with pytest.raises(ValueError, match="forward dependencies"):
         Planner.validate(draft)
 
 
 def test_rejects_duplicate_ids():
     """Reject repeated task identifiers within a plan."""
-    draft = PlanDraft(goal_summary="goal", reasoning="reason", tasks=[task("a"), task("a"), task("c")])
+    draft = PlanDraft(
+        goal_summary="goal", reasoning="reason", tasks=[task("a"), task("a"), task("c")]
+    )
     with pytest.raises(ValueError, match="Duplicate"):
         Planner.validate(draft)
 

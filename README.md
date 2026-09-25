@@ -6,8 +6,6 @@ The codebase is documented at three levels: every Python module explains its res
 classes describe the state or service they represent, and methods/functions document their
 inputs, outputs, and important errors. The browser client uses equivalent JSDoc comments.
 
-![Planning agent architecture](docs/diagrams/architecture.svg)
-
 ## What the project demonstrates
 
 The visible workflow is:
@@ -79,7 +77,31 @@ Try this objective:
 6. The browser polls `GET /api/runs/{run_id}` and renders live progress.
 7. EURI synthesizes the successful task results into the final response.
 
-![File responsibility map](docs/diagrams/file-map.svg)
+## Diagrams
+
+These views show the same system at different levels. Start with the runtime architecture, use
+the schema overview to understand the data passed between stages, and then use the file map when
+reading the implementation.
+
+### End-to-end runtime flow
+
+![Objective flowing through the planner, executor, tools, persistent state, and final synthesis](docs/diagrams/architecture.svg)
+
+The planner creates a validated dependency-ordered task list. The executor then calls only the
+allow-listed tools and checkpoints every meaningful transition to SQLite before the model
+synthesizes the final answer.
+
+### State and schema overview
+
+![Planning-agent schemas, enums, task state, event state, and API request model](docs/diagrams/Agent.png)
+
+`PlannedTask` describes work before execution, while `TaskState` adds runtime status, attempts,
+results, errors, and timestamps. `AgentState` is the complete durable snapshot returned by the
+API and saved in SQLite.
+
+### File responsibility map
+
+![How the browser, API, agent core, models, and SQLite store collaborate](docs/diagrams/file-map.svg)
 
 ## File guide
 
@@ -143,6 +165,26 @@ pytest -q
 ```
 
 The tests cover plan validation, state persistence, successful execution, retries, and replanning. No EURI key is needed.
+
+Run Ruff to sort imports, apply its safe lint fixes, and format the Python code:
+
+```bash
+ruff check . --fix
+ruff format .
+```
+
+## Configuration reference
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `DEMO_MODE` | `false` | Use the deterministic offline provider instead of EURI. |
+| `EURI_API_KEY` | empty | Authenticate live EURI requests; required when demo mode is off. |
+| `EURI_BASE_URL` | `https://api.euron.one/api/v1/euri` | OpenAI-compatible EURI endpoint. |
+| `EURI_MODEL` | `gemini-3.5-flash-lite` | Model used for planning and text generation. |
+| `MAX_RETRIES` | `2` | Additional attempts allowed after a tool call fails. |
+| `MAX_REPLANS` | `1` | Replacement plans allowed after retries are exhausted. |
+| `DATABASE_PATH` | `data/planning_agent.db` | SQLite file containing complete run snapshots. |
+| `OUTPUT_DIR` | `outputs` | Directory for generated Markdown deliverables. |
 
 ## Security and limits
 

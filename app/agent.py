@@ -12,7 +12,14 @@ from app.state_store import StateStore
 class PlanningAgent:
     """Coordinate a planning-agent run from objective intake to final response."""
 
-    def __init__(self, planner: Planner, executor: Executor, model: ModelProvider, store: StateStore, max_replans: int):
+    def __init__(
+        self,
+        planner: Planner,
+        executor: Executor,
+        model: ModelProvider,
+        store: StateStore,
+        max_replans: int,
+    ):
         """Initialize the agent and its collaborating services.
 
         Args:
@@ -47,7 +54,9 @@ class PlanningAgent:
             state.plan_reasoning = draft.reasoning
             state.tasks = [TaskState(**task.model_dump()) for task in draft.tasks]
             state.status = RunStatus.running
-            state.events.append(Event(kind="plan_created", message=f"Created {len(state.tasks)} tasks"))
+            state.events.append(
+                Event(kind="plan_created", message=f"Created {len(state.tasks)} tasks")
+            )
             self.store.save(state)
 
             while True:
@@ -59,13 +68,15 @@ class PlanningAgent:
                         raise
                     state.status = RunStatus.replanning
                     state.replan_count += 1
-                    state.events.append(Event(kind="replanning", task_id=failure.task.id, message=failure.error))
+                    state.events.append(
+                        Event(kind="replanning", task_id=failure.task.id, message=failure.error)
+                    )
                     self.store.save(state)
                     revised = await self.planner.revise(state, failure.task, failure.error)
-                    completed = [task for task in state.tasks if task.status == TaskStatus.completed]
-                    id_map = {
-                        task.id: f"r{state.replan_count}_{task.id}" for task in revised.tasks
-                    }
+                    completed = [
+                        task for task in state.tasks if task.status == TaskStatus.completed
+                    ]
+                    id_map = {task.id: f"r{state.replan_count}_{task.id}" for task in revised.tasks}
                     new_tasks = []
                     for task in revised.tasks:
                         task.id = id_map[task.id]
@@ -76,7 +87,9 @@ class PlanningAgent:
                     state.status = RunStatus.running
                     self.store.save(state)
 
-            results = "\n\n".join(f"## {task.title}\n{task.result}" for task in state.tasks if task.result)
+            results = "\n\n".join(
+                f"## {task.title}\n{task.result}" for task in state.tasks if task.result
+            )
             state.final_response = await self.model.generate_text(
                 f"Give the user a concise final response for this objective: {objective}\n\nResults:\n{results}"
             )

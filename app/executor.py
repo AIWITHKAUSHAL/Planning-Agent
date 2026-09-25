@@ -70,7 +70,7 @@ class Executor:
             for attempt in range(1, self.max_retries + 2):
                 task.attempts = attempt
                 try:
-                    task.result = await self.tools.execute(task, w)
+                    task.result = await self.tools.execute(task, dependencies)
                     task.status = TaskStatus.completed
                     task.error = None
                     task.finished_at = utc_now()
