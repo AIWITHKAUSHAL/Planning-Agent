@@ -1,3 +1,5 @@
+"""SQLite persistence for complete planning-agent state snapshots."""
+
 import sqlite3
 from pathlib import Path
 from threading import Lock
@@ -6,9 +8,14 @@ from app.models import AgentState, utc_now
 
 
 class StateStore:
-    """Small durable state store. Every agent transition is written immediately."""
+    """Persist every agent transition immediately as a SQLite JSON snapshot."""
 
     def __init__(self, path: Path):
+        """Initialize the database and create the runs table when necessary.
+
+        Args:
+            path: Location of the SQLite database file.
+        """
         self.path = path
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = Lock()
@@ -22,9 +29,18 @@ class StateStore:
             )
 
     def _connect(self) -> sqlite3.Connection:
+        """Open a SQLite connection configured with a short lock timeout."""
         return sqlite3.connect(self.path, timeout=10)
 
     def save(self, state: AgentState) -> AgentState:
+        """Insert or update a complete run-state snapshot.
+
+        Args:
+            state: Current mutable agent state to timestamp and persist.
+
+        Returns:
+            The same state instance after its ``updated_at`` value is refreshed.
+        """
         state.updated_at = utc_now()
         payload = state.model_dump_json()
         with self._lock, self._connect() as connection:
@@ -37,6 +53,7 @@ class StateStore:
         return state
 
     def get(self, run_id: str) -> AgentState | None:
+        """Load a run by ID, or return ``None`` when it does not exist."""
         with self._connect() as connection:
             row = connection.execute(
                 "SELECT state_json FROM runs WHERE run_id = ?", (run_id,)
@@ -44,9 +61,9 @@ class StateStore:
         return AgentState.model_validate_json(row[0]) if row else None
 
     def list(self, limit: int = 20) -> list[AgentState]:
+        """Return recently updated runs in newest-first order."""
         with self._connect() as connection:
             rows = connection.execute(
                 "SELECT state_json FROM runs ORDER BY updated_at DESC LIMIT ?", (limit,)
             ).fetchall()
         return [AgentState.model_validate_json(row[0]) for row in rows]
-

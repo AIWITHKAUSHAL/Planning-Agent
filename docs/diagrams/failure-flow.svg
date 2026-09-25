@@ -6,7 +6,7 @@
 <polygon class="box" points="330,180 430,250 330,320 230,250"/><text class="t" x="290" y="246">Success?</text>
 <rect class="good" x="490" y="115" width="195" height="90" rx="5"/><text class="t" x="522" y="153">Save result</text><text class="s" x="522" y="177">next pending task</text>
 <polygon class="fail" points="585,235 695,310 585,385 475,310"/><text class="t" x="517" y="306">Retries left?</text>
-<rect class="fail" x="760" y="255" width="190" height="110" rx="5"/><text class="t" x="797" y="299">Ask Gemini</text><text class="s" x="797" y="324">revise unfinished</text><text class="s" x="797" y="344">tasks only</text>
+<rect class="fail" x="760" y="255" width="190" height="110" rx="5"/><text class="t" x="797" y="299">Ask EURI</text><text class="s" x="797" y="324">revise unfinished</text><text class="s" x="797" y="344">tasks only</text>
 <rect class="good" x="985" y="255" width="165" height="110" rx="5"/><text class="t" x="1010" y="299">New plan</text><text class="s" x="1010" y="324">keep completed</text><text class="s" x="1010" y="344">context</text>
 <path class="line" d="M220 250H222"/><path class="line" d="M365 214Q410 160 482 160"/><text class="s" x="403" y="146">YES</text><path class="line red" d="M365 285Q405 310 468 310"/><text class="s" x="401" y="300">NO</text><path class="line red" d="M695 310H753"/><text class="s" x="704" y="296">NO</text><path class="line" d="M950 310H978"/><path class="line" d="M585 385V460H137V302"/><text class="s" x="315" y="448">YES · exponential backoff · checkpoint error</text>
 </svg>

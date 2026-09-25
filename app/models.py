@@ -1,3 +1,5 @@
+"""Typed schemas and lifecycle enums shared across the planning agent."""
+
 from __future__ import annotations
 
 from datetime import datetime, timezone
@@ -9,10 +11,13 @@ from pydantic import BaseModel, Field
 
 
 def utc_now() -> datetime:
+    """Return the current timezone-aware UTC timestamp."""
     return datetime.now(timezone.utc)
 
 
 class TaskStatus(str, Enum):
+    """Represent the execution lifecycle of an individual task."""
+
     pending = "pending"
     running = "running"
     completed = "completed"
@@ -21,6 +26,8 @@ class TaskStatus(str, Enum):
 
 
 class RunStatus(str, Enum):
+    """Represent the lifecycle of an entire planning-agent run."""
+
     planning = "planning"
     running = "running"
     replanning = "replanning"
@@ -29,12 +36,16 @@ class RunStatus(str, Enum):
 
 
 class ToolName(str, Enum):
+    """List the tool names that a generated plan is allowed to select."""
+
     research = "research"
     analyze = "analyze"
     write_document = "write_document"
 
 
 class PlannedTask(BaseModel):
+    """Describe one model-generated task before execution begins."""
+
     id: str = Field(description="Short stable id such as task_1")
     title: str
     description: str
@@ -45,12 +56,16 @@ class PlannedTask(BaseModel):
 
 
 class PlanDraft(BaseModel):
+    """Contain a model-generated plan and its decomposition rationale."""
+
     goal_summary: str
     reasoning: str = Field(description="Brief explanation of the decomposition")
     tasks: list[PlannedTask]
 
 
 class TaskState(PlannedTask):
+    """Extend a planned task with mutable execution and timing details."""
+
     status: TaskStatus = TaskStatus.pending
     attempts: int = 0
     result: str | None = None
@@ -60,6 +75,8 @@ class TaskState(PlannedTask):
 
 
 class Event(BaseModel):
+    """Record a timestamped event in a run's audit timeline."""
+
     at: datetime = Field(default_factory=utc_now)
     kind: str
     message: str
@@ -67,6 +84,8 @@ class Event(BaseModel):
 
 
 class AgentState(BaseModel):
+    """Capture the complete durable state of one planning-agent run."""
+
     run_id: str = Field(default_factory=lambda: uuid4().hex[:12])
     objective: str
     status: RunStatus = RunStatus.planning
@@ -81,5 +100,6 @@ class AgentState(BaseModel):
 
 
 class RunRequest(BaseModel):
-    objective: str = Field(min_length=10, max_length=4000)
+    """Validate the objective supplied when a client starts a run."""
 
+    objective: str = Field(min_length=10, max_length=4000)

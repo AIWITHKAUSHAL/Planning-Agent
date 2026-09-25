@@ -1,2 +1,1 @@
-"""Gemini-powered planning agent."""
-
+"""EURI-powered planning agent."""

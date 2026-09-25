@@ -2,11 +2,11 @@
 
 ## 0:00–0:40 — Problem and result
 
-“The requirement is to convert a complex objective into executable tasks and show the full path from goal to final response. My project is Atlas, a Gemini-powered planning agent.” Show the home screen and the architecture diagram.
+“The requirement is to convert a complex objective into executable tasks and show the full path from goal to final response. My project is Atlas, an EURI-powered planning agent.” Show the home screen and the architecture diagram.
 
 ## 0:40–1:40 — Architecture
 
-Open `docs/diagrams/architecture.svg`. Explain that Gemini plans, the executor runs one selected tool per task, and SQLite receives checkpoints throughout. Emphasize that this is a workflow, not one large prompt.
+Open `docs/diagrams/architecture.svg`. Explain that EURI plans, the executor runs one selected tool per task, and SQLite receives checkpoints throughout. Emphasize that this is a workflow, not one large prompt.
 
 ## 1:40–2:45 — Planning and tool selection
 
@@ -14,7 +14,7 @@ Open `app/models.py`, `app/llm.py`, and `app/planner.py`.
 
 - Show `PlanDraft` and `PlannedTask`.
 - Point out `tool`, `inputs`, `depends_on`, and `success_criteria`.
-- Show Gemini's Pydantic response schema.
+- Show how EURI JSON responses are validated with the Pydantic plan schema.
 - Show validation of unique IDs and earlier dependencies.
 
 ## 2:45–3:45 — State management
@@ -31,7 +31,7 @@ Open `app/executor.py` and `app/tools.py`.
 
 - Show dependency result collection.
 - Show the tool registry, which limits the model to approved capabilities.
-- Explain research with Gemini Google Search grounding, analysis over prior results, and sandboxed Markdown writing.
+- Explain cited research generation, analysis over prior results, and sandboxed Markdown writing.
 
 ## 4:50–5:50 — Failure handling
 
@@ -61,4 +61,3 @@ Briefly show the tests and README setup. State the limitations: generated resear
 - Do not display the `.env` file or API key.
 - Record voice clearly; keep the terminal visible during tests.
 - Put both GitHub and YouTube links in the final submission.
-

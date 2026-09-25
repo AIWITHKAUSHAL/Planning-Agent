@@ -1,3 +1,5 @@
+"""Top-level orchestration for planning, execution, recovery, and synthesis."""
+
 from __future__ import annotations
 
 from app.executor import Executor, TaskFailed
@@ -8,7 +10,18 @@ from app.state_store import StateStore
 
 
 class PlanningAgent:
+    """Coordinate a planning-agent run from objective intake to final response."""
+
     def __init__(self, planner: Planner, executor: Executor, model: ModelProvider, store: StateStore, max_replans: int):
+        """Initialize the agent and its collaborating services.
+
+        Args:
+            planner: Service that creates and revises validated plans.
+            executor: Service that executes planned tasks and handles retries.
+            model: Language-model provider used to synthesize the final response.
+            store: Durable store used to checkpoint each state transition.
+            max_replans: Maximum number of replacement plans allowed after failures.
+        """
         self.planner = planner
         self.executor = executor
         self.model = model
@@ -16,6 +29,16 @@ class PlanningAgent:
         self.max_replans = max_replans
 
     async def run(self, objective: str, state: AgentState | None = None) -> AgentState:
+        """Run an objective through planning, execution, recovery, and synthesis.
+
+        Args:
+            objective: User goal that the agent must complete.
+            state: Optional pre-created state, such as one returned by the API.
+
+        Returns:
+            The final persisted state. Unexpected failures are represented by a
+            ``failed`` status and error message instead of being propagated.
+        """
         state = state or AgentState(objective=objective)
         state.events.append(Event(kind="goal_received", message=objective))
         self.store.save(state)

@@ -3,55 +3,139 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Atlas · Planning Agent</title>
+  <meta name="theme-color" content="#070b16">
+  <meta name="description" content="Atlas turns complex objectives into executable, resilient plans.">
+  <title>Atlas — AI Planning Agent</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%237c6cff'/%3E%3Cpath d='M18 45 31 16h3l12 29h-8l-2-6H27l-2 6Zm12-13h4l-2-7Z' fill='white'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css?v=3">
 </head>
 <body>
-  <header>
-    <a class="brand" href="/"><span class="mark">A</span><span>ATLAS</span></a>
-    <div class="health"><span class="pulse"></span><span id="mode">checking agent</span></div>
+  <div class="page-glow glow-one" aria-hidden="true"></div>
+  <div class="page-glow glow-two" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Atlas home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><path d="M9 23 15.2 8h1.7L23 23h-4.1l-1.2-3.2h-3.9L12.6 23Zm6-6.4h1.6l-.8-2.5Z"/></svg>
+      </span>
+      <span><strong>Atlas</strong><small>Planning intelligence</small></span>
+    </a>
+    <div class="header-actions">
+      <a class="docs-link" href="/docs">API docs <span>↗</span></a>
+      <div class="health" title="Current model connection">
+        <span class="pulse"></span>
+        <span id="mode">Connecting</span>
+      </div>
+    </div>
   </header>
 
   <main>
     <section class="hero">
-      <p class="eyebrow">GEMINI-POWERED PLANNING AGENT</p>
-      <h1>Turn a complex goal into<br><em>work that gets done.</em></h1>
-      <p class="intro">Atlas decomposes an objective, selects tools, executes each task, and adapts when the plan meets reality.</p>
+      <div class="hero-copy">
+        <div class="hero-badge"><span>✦</span> Agentic planning, made visible</div>
+        <h1>From ambitious idea<br>to <span>actionable plan.</span></h1>
+        <p class="intro">Describe the outcome. Atlas breaks it into dependency-aware tasks, chooses the right tools, executes the work, and adapts when something fails.</p>
+        <div class="trust-row" aria-label="Atlas capabilities">
+          <span><i>✓</i> Structured planning</span>
+          <span><i>✓</i> Live execution</span>
+          <span><i>✓</i> Failure recovery</span>
+        </div>
+      </div>
+
+      <div class="agent-preview" aria-label="Agent workflow preview">
+        <div class="preview-head">
+          <div><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span></div>
+          <span>AGENT WORKFLOW</span>
+          <span class="live-label"><i></i> LIVE</span>
+        </div>
+        <div class="preview-body">
+          <div class="flow-node active"><span class="node-icon">01</span><div><small>OBJECTIVE</small><strong>Understand the goal</strong></div><i>Complete</i></div>
+          <div class="flow-line"><span></span></div>
+          <div class="flow-node active"><span class="node-icon">02</span><div><small>PLAN</small><strong>Build task graph</strong></div><i>Complete</i></div>
+          <div class="flow-line processing"><span></span></div>
+          <div class="flow-node running"><span class="node-icon">03</span><div><small>EXECUTE</small><strong>Run with the right tools</strong></div><i>In progress</i></div>
+          <div class="flow-line muted"><span></span></div>
+          <div class="flow-node"><span class="node-icon">04</span><div><small>DELIVER</small><strong>Synthesize the result</strong></div><i>Queued</i></div>
+        </div>
+        <div class="preview-foot"><span>State saved automatically</span><span>00:04.28</span></div>
+      </div>
+    </section>
+
+    <section class="composer" aria-labelledby="composer-title">
+      <div class="composer-heading">
+        <div>
+          <span class="section-kicker">START A NEW RUN</span>
+          <h2 id="composer-title">What should Atlas accomplish?</h2>
+        </div>
+        <span class="secure-note"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5Zm0 3.2 5 1.9V11c0 3.5-2.1 6.9-5 8-2.9-1.1-5-4.5-5-8V7.1Z"/></svg> Checkpointed securely</span>
+      </div>
       <form id="goal-form">
-        <label for="objective">What should Atlas accomplish?</label>
-        <textarea id="objective" required minlength="10" placeholder="Research three AI companies, compare their products, and prepare a summary."></textarea>
-        <div class="form-row">
-          <span>⌘ Enter to run</span>
-          <button type="submit">Create & execute plan <b>→</b></button>
+        <label class="sr-only" for="objective">Your objective</label>
+        <textarea id="objective" required minlength="10" maxlength="4000" placeholder="Describe a complex goal — research a market, compare options, or prepare a detailed report..."></textarea>
+        <div class="composer-footer">
+          <div class="input-meta">
+            <span id="char-count">0 / 4,000</span>
+            <span class="keyboard-hint"><kbd>⌘</kbd><kbd>Enter</kbd> to run</span>
+          </div>
+          <button id="submit-button" type="submit">
+            <span class="button-label">Build & execute plan</span>
+            <span class="button-icon">→</span>
+          </button>
         </div>
       </form>
+      <div class="examples">
+        <span>Try an example</span>
+        <button type="button" class="example-chip" data-prompt="Research three leading AI companies, compare their products, and prepare an executive summary.">AI market brief</button>
+        <button type="button" class="example-chip" data-prompt="Create a launch plan for a productivity app, including audience research, positioning, and a marketing brief.">Product launch</button>
+        <button type="button" class="example-chip" data-prompt="Compare three cloud platforms for a growing startup and prepare a recommendation with key trade-offs.">Cloud comparison</button>
+      </div>
     </section>
 
     <section id="workspace" class="workspace hidden" aria-live="polite">
       <div class="section-heading">
-        <div><p class="eyebrow">LIVE EXECUTION</p><h2 id="run-title">Current plan</h2></div>
-        <span id="run-status" class="status">planning</span>
+        <div>
+          <span class="section-kicker">LIVE EXECUTION</span>
+          <h2 id="run-title">Current plan</h2>
+        </div>
+        <span id="run-status" class="status" data-status="planning"><i></i> planning</span>
       </div>
-      <div class="pipeline" aria-label="agent pipeline">
-        <span>Goal</span><i>→</i><span>Plan</span><i>→</i><span>Tasks</span><i>→</i><span>Tools</span><i>→</i><span>Execute</span><i>→</i><span>Result</span>
+      <div class="pipeline" aria-label="Agent pipeline">
+        <div class="pipeline-step active"><span>1</span><b>Goal</b></div>
+        <i></i>
+        <div class="pipeline-step active"><span>2</span><b>Plan</b></div>
+        <i></i>
+        <div class="pipeline-step"><span>3</span><b>Execute</b></div>
+        <i></i>
+        <div class="pipeline-step"><span>4</span><b>Deliver</b></div>
       </div>
       <div id="tasks" class="tasks"></div>
-      <article id="final" class="final hidden"><p class="eyebrow">FINAL RESPONSE</p><div id="final-text"></div></article>
+      <article id="final" class="final hidden">
+        <div class="final-heading"><span class="final-icon">✦</span><div><span class="section-kicker">FINAL RESPONSE</span><h3>Mission complete</h3></div></div>
+        <div id="final-text"></div>
+      </article>
     </section>
 
     <section class="how">
-      <p class="eyebrow">HOW IT THINKS</p>
+      <div class="how-heading">
+        <div><span class="section-kicker">BUILT FOR RELIABLE WORK</span><h2>A smarter path from intent to outcome.</h2></div>
+        <p>Atlas combines structured reasoning with durable execution, so you always know what is happening and why.</p>
+      </div>
       <div class="principles">
-        <article><b>01</b><h3>Decompose</h3><p>Gemini turns the goal into ordered, dependency-aware tasks.</p></article>
-        <article><b>02</b><h3>Execute</h3><p>A registry maps each task to a focused, auditable tool.</p></article>
-        <article><b>03</b><h3>Adapt</h3><p>Failures trigger retries, then a revised plan with saved context.</p></article>
+        <article><span class="principle-icon">⌘</span><small>01 / PLAN</small><h3>Think in systems</h3><p>Complex goals become ordered tasks with explicit dependencies and clear completion criteria.</p></article>
+        <article><span class="principle-icon">↗</span><small>02 / EXECUTE</small><h3>Use focused tools</h3><p>Every task maps to an allow-listed research, analysis, or document-writing capability.</p></article>
+        <article><span class="principle-icon">↻</span><small>03 / ADAPT</small><h3>Recover gracefully</h3><p>Automatic retries and plan revision preserve completed work when reality changes the route.</p></article>
       </div>
     </section>
   </main>
-  <footer><span>ATLAS / v1.0</span><span>State persisted after every step</span></footer>
-  <script src="/static/app.js"></script>
+
+  <footer>
+    <div class="brand footer-brand"><span class="brand-mark">A</span><strong>Atlas</strong></div>
+    <p>Plan clearly. Execute confidently.</p>
+    <span>v1.0 · State persisted after every step</span>
+  </footer>
+  <script src="/static/app.js?v=5"></script>
 </body>
 </html>

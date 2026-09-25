@@ -11,7 +11,7 @@
 <rect class="green" x="630" y="180" width="190" height="95" rx="5"/><text class="t w" x="653" y="215">agent.py</text><text class="sw" x="653" y="241">workflow coordinator</text>
 <rect class="box" x="370" y="330" width="190" height="95" rx="5"/><text class="t" x="393" y="365">planner.py</text><text class="s" x="393" y="391">plan validation</text>
 <rect class="box" x="630" y="330" width="190" height="95" rx="5"/><text class="t" x="653" y="365">executor.py</text><text class="s" x="653" y="391">retry + dependency</text>
-<rect class="box" x="370" y="480" width="190" height="95" rx="5"/><text class="t" x="393" y="515">llm.py</text><text class="s" x="393" y="541">Gemini / demo model</text>
+<rect class="box" x="370" y="480" width="190" height="95" rx="5"/><text class="t" x="393" y="515">llm.py</text><text class="s" x="393" y="541">EURI / demo model</text>
 <rect class="box" x="630" y="480" width="190" height="95" rx="5"/><text class="t" x="653" y="515">tools.py</text><text class="s" x="653" y="541">tool registry</text>
 <rect class="group" x="900" y="115" width="255" height="530" rx="8"/><text class="sw" x="920" y="143">DATA</text>
 <rect class="box" x="930" y="220" width="195" height="95" rx="5"/><text class="t" x="953" y="255">models.py</text><text class="s" x="953" y="281">typed state schema</text>
